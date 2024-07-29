@@ -1,17 +1,73 @@
-import React, { useContext } from "react";
-import { Container, Row, Col, Form, Button, Card } from "react-bootstrap";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  Button,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import { AppContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Remove destructuring
+import Cookies from "js-cookie";
+import authApi from "../../api/auth";
 
 const SignIn = () => {
   const { setUser } = useContext(AppContext);
   const navigate = useNavigate();
 
-  const handleSignIn = (event) => {
+  const [showError, setShowError] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const token = Cookies.get("jwt");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+
+        setUser(decodedToken);
+        navigate("/home"); // Redirect to the home page after successful sign-in
+      } catch (error) {
+        Cookies.remove("jwt");
+        setUser(null);
+        console.log(error);
+        navigate("/login");
+      }
+    } else {
+      navigate("/login");
+    }
+  }, []);
+
+  const handleSignIn = async (event) => {
     event.preventDefault();
-    // Add your authentication logic here
-    setUser(true);
-    navigate("/"); // Redirect to the home page after successful sign-in
+
+    try {
+      const response = await authApi.login(email, password);
+
+      if (response.ok) {
+        console.log("Login successful", response.data);
+        console.log(Cookies.get("jwt"));
+        const token = Cookies.get("jwt");
+        if (token) {
+          setUser(jwtDecode(token));
+          navigate("/home"); // Redirect to home after successful sign-in
+        } else {
+          console.error("JWT token is not set in the cookies.");
+        }
+      } else {
+        // set show error to true for 4 seconds inside a timeout
+        setShowError(true);
+        setTimeout(() => setShowError(false), 4000);
+
+        console.error("Login failed", response.problem);
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
   };
 
   return (
@@ -21,17 +77,30 @@ const SignIn = () => {
     >
       <Row className="justify-content-center align-items-center w-100 mt-4">
         <Col className="" xs={12} md={6} lg={4}>
+          {showError && (
+            <Alert key={"danger"} variant="danger">
+              Invalid Credentials!
+            </Alert>
+          )}
           <Card className="shadow-lg mt-4">
             <Card.Body>
               <h2 className="text-center mb-4">Sign In</h2>
               <Form onSubmit={handleSignIn}>
-                <Form.Group controlId="formBasicEmail">
+                <Form.Group controlId="email">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control
+                    onChange={(e) => setEmail(e.target.value)}
+                    type="email"
+                    placeholder="Enter email"
+                  />
                 </Form.Group>
-                <Form.Group controlId="formBasicPassword" className="mt-3">
+                <Form.Group controlId="password" className="mt-3">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control
+                    onChange={(e) => setPassword(e.target.value)}
+                    type="password"
+                    placeholder="Password"
+                  />
                 </Form.Group>
                 <Button variant="primary" type="submit" className="w-100 mt-4">
                   Sign In

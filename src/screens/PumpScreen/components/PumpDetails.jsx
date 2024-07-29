@@ -27,7 +27,7 @@ const PumpDetails = ({ pump }) => (
           </Col>
           <Col style={{ flex: "1", color: "gray" }}>
             <p>{pump.location}</p>
-            <p>No. of Employees: {pump.employees.length}</p>
+            {/* <p>No. of Employees: {pump.employees.length}</p> */}
           </Col>
         </Row>
       </Col>

@@ -2,7 +2,7 @@ import React from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { COLORS } from "../../../constants/constants";
 
-const EmployeeDetailListItem = ({ employee }) => {
+const EmployeeDetailListItem = ({ employee, pumpId }) => {
   return (
     <ListGroup as="ul" style={{ backgroundColor: COLORS.secondary }}>
       <ListGroup.Item as="li">
@@ -28,7 +28,7 @@ const EmployeeDetailListItem = ({ employee }) => {
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <p>
-          <strong>Pump ID:</strong> {employee.pumpId}
+          <strong>Pump ID:</strong> {pumpId}
         </p>
       </ListGroup.Item>
       <ListGroup.Item as="li">

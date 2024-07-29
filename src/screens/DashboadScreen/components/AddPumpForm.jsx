@@ -1,8 +1,36 @@
-import React from "react";
-import { Form, Button, Card } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Form, Button, Card, Alert } from "react-bootstrap";
 import { COLORS } from "../../../constants/constants";
+import adminApis from "../../../api/admin";
+import useApi from "../../../hooks/useApi";
+import { useNavigate } from "react-router-dom";
 
-const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
+const AddPumpForm = () => {
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [location, setLocation] = useState("");
+  const [coordinates, setCoordinates] = useState({
+    latitude: "",
+    longitude: "",
+  });
+
+  const addPumpApi = useApi(adminApis.addPump);
+
+  useEffect(() => {
+    if (addPumpApi.data) {
+      console.log("Pump added successfully");
+    }
+    if (addPumpApi.error) {
+      console.error("Failed to add pump", addPumpApi.responseProblem);
+    }
+  }, [addPumpApi.error, addPumpApi.data]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await addPumpApi.request(name, location, coordinates);
+    navigate(0);
+  };
+
   return (
     <Card
       style={{
@@ -14,14 +42,26 @@ const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
       <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
         Add New Pump
       </h4>
-      <Form>
+      {addPumpApi.isError && (
+        <Alert variant="danger">
+          {addPumpApi.error} {addPumpApi.errorStatus}:{" "}
+          {addPumpApi.responseProblem}
+        </Alert>
+      )}
+      {addPumpApi.data && (
+        <Alert variant="success">Pump Added Successfully</Alert>
+      )}
+      {addPumpApi.loading && <Alert variant="info">Loading...</Alert>}
+
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="pumpName">
           <Form.Label>Pump Name</Form.Label>
           <Form.Control
             type="text"
             placeholder="Enter Pump Name"
-            value={newPump.name}
-            onChange={(e) => setNewPump({ ...newPump, name: e.target.value })}
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
             style={{
               borderRadius: "8px",
               padding: "0.75rem",
@@ -30,15 +70,14 @@ const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
             }}
           />
         </Form.Group>
-        <Form.Group controlId="pumpLocation">
+        <Form.Group controlId="pumpLocation" required>
           <Form.Label>Location</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Pump Location"
-            value={newPump.location}
-            onChange={(e) =>
-              setNewPump({ ...newPump, location: e.target.value })
-            }
+            placeholder="Location"
+            required
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
             style={{
               borderRadius: "8px",
               padding: "0.75rem",
@@ -47,14 +86,18 @@ const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
             }}
           />
         </Form.Group>
-        <Form.Group controlId="pumpManager">
-          <Form.Label>Manager</Form.Label>
+        <Form.Group controlId="pumpLatitude">
+          <Form.Label>Latitude</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Manager's Email"
-            value={newPump.manager}
+            placeholder="Latitude"
+            required
+            value={coordinates.latitude}
             onChange={(e) =>
-              setNewPump({ ...newPump, manager: e.target.value })
+              setCoordinates((prevCoordinates) => ({
+                ...prevCoordinates,
+                latitude: e.target.value,
+              }))
             }
             style={{
               borderRadius: "8px",
@@ -64,14 +107,18 @@ const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
             }}
           />
         </Form.Group>
-        <Form.Group controlId="pumpOrganization">
-          <Form.Label>Organization</Form.Label>
+        <Form.Group controlId="pumpLongitude">
+          <Form.Label>Longitude</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Enter Organization"
-            value={newPump.organization}
+            placeholder="Longitude"
+            required
+            value={coordinates.longitude}
             onChange={(e) =>
-              setNewPump({ ...newPump, organization: e.target.value })
+              setCoordinates((prevCoordinates) => ({
+                ...prevCoordinates,
+                longitude: e.target.value,
+              }))
             }
             style={{
               borderRadius: "8px",
@@ -81,8 +128,9 @@ const AddPumpForm = ({ handleAddPump, newPump, setNewPump }) => {
             }}
           />
         </Form.Group>
+
         <Button
-          onClick={handleAddPump}
+          type="submit"
           style={{
             backgroundColor: COLORS.tertiary,
             color: COLORS.primary,

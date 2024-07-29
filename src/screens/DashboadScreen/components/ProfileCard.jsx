@@ -20,9 +20,9 @@ const ProfileCard = ({ user }) => {
         alt="Profile"
         style={{ width: "50%", borderRadius: "50%" }}
       />
-      <h3>{user.name}</h3>
-      <p>Role: {user.role}</p>
-      <p>Phone: +1234567890</p>
+      <h3>{user ? user?.name : <h4>Loading...</h4>}</h3>
+      <p>Role: {user ? user?.role : <h4>Loading...</h4>}</p>
+      {/* <p></p> */}
     </Card>
   );
 };

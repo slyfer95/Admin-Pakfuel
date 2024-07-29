@@ -5,9 +5,21 @@ import logo from "../assets/logo.png";
 import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
 import { COLORS } from "../constants/constants.js";
 import { AppContext } from "../context/context"; // Adjust the path if necessary
+import Cookies from "js-cookie";
 
 const Header = () => {
   const { user, setUser } = useContext(AppContext);
+
+  const confirmLogOut = () => {
+    if (window.confirm("Are you sure you want to log out?")) {
+      handleLogout();
+    }
+  };
+
+  const handleLogout = () => {
+    setUser(false);
+    Cookies.remove("jwt");
+  };
 
   return (
     <header>
@@ -45,7 +57,7 @@ const Header = () => {
                   <NavLink
                     to="/"
                     className="nav-link"
-                    onClick={() => setUser(false)}
+                    onClick={() => confirmLogOut()}
                   >
                     Sign Out
                   </NavLink>

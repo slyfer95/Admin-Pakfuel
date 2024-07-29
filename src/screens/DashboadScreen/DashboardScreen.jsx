@@ -1,108 +1,52 @@
-import React, { useState, useContext } from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import { AppContext } from "../../context/context.js";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Alert, Pagination } from "react-bootstrap";
 import { COLORS } from "../../constants/constants.js";
 import ProfileCard from "./components/ProfileCard.jsx";
 import AddPumpForm from "./components/AddPumpForm.jsx";
 import StatCard from "./components/StatCard.jsx";
 import SearchFilterPanel from "./components/SearchFilterPanel.jsx";
 import PumpCard from "./components/PumpCard.jsx";
-import pso from "../../assets/images/pso.png";
-import byco from "../../assets/images/byco.jpeg";
-import caltex from "../../assets/images/caltex.png";
-import atock from "../../assets/images/atock.png";
-import shell from "../../assets/images/shell.png";
-import hascol from "../../assets/images/hascol.png";
+import usePumpsList from "../../hooks/usePumpsList.js";
 
 const Dashboard = () => {
-  const { user } = useContext(AppContext);
+  const {
+    pumps,
+    noPumps,
+    noEmployees,
+    user,
+    getProfile,
+    getPumpList,
+    getStats,
+    isError,
+    error,
+    errorProblem,
+    errorStatus,
+    refreshPumpList,
+    loading,
+  } = usePumpsList();
 
-  const pumps = [
-    {
-      id: 1,
-      name: "PSO",
-      location: "Location A",
-      organization: "PSO",
-      image: pso,
-    },
-    {
-      id: 2,
-      name: "BYCO",
-      location: "Location B",
-      organization: "BYCO",
-      image: byco,
-    },
-    {
-      id: 3,
-      name: "Caltex",
-      location: "Location C",
-      organization: "Caltex",
-      image: caltex,
-    },
-    {
-      id: 4,
-      name: "Shell",
-      location: "Location D",
-      organization: "Shell",
-      image: shell,
-    },
-    {
-      id: 5,
-      name: "Atock",
-      location: "Location E",
-      organization: "Atock",
-      image: atock,
-    },
-    {
-      id: 7,
-      name: "Atock New",
-      location: "Location G",
-      organization: "Atock",
-      image: atock,
-    },
-    {
-      id: 6,
-      name: "Hascol",
-      location: "Location F",
-      organization: "Hascol",
-      image: hascol,
-    },
-  ];
+  useEffect(() => {
+    getPumpList();
+    getProfile();
+    getStats();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchBy, setSearchBy] = useState("ID");
-  const [filterOrg, setFilterOrg] = useState("");
   const [showAddPumpForm, setShowAddPumpForm] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
-  const [newPump, setNewPump] = useState({
-    name: "",
-    location: "",
-    manager: "",
-    organization: "",
-  });
+  const filteredPumps =
+    pumps && searchTerm
+      ? pumps.filter((pump) => pump.name.toString().includes(searchTerm))
+      : pumps || [];
 
-  const handleAddPump = () => {
-    pumps.push({
-      ...newPump,
-      id: pumps.length + 1,
-      image: pso,
-    });
-    setNewPump({
-      name: "",
-      location: "",
-      manager: "",
-      organization: "",
-    });
-    setShowAddPumpForm(false);
-  };
+  const indexOfLastPump = currentPage * itemsPerPage;
+  const indexOfFirstPump = indexOfLastPump - itemsPerPage;
+  const currentPumps = filteredPumps.slice(indexOfFirstPump, indexOfLastPump);
 
-  const filteredPumps = pumps.filter((pump) => {
-    if (filterOrg && pump.organization !== filterOrg) return false;
-    if (searchBy === "ID") return pump.id.toString().includes(searchTerm);
-    if (searchBy === "location")
-      return pump.location.toLowerCase().includes(searchTerm.toLowerCase());
-    return true;
-  });
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <Container fluid>
@@ -114,29 +58,35 @@ const Dashboard = () => {
           <Row>
             <SearchFilterPanel
               searchTerm={searchTerm}
-              searchBy={searchBy}
-              filterOrg={filterOrg}
               setSearchTerm={setSearchTerm}
-              setSearchBy={setSearchBy}
-              setFilterOrg={setFilterOrg}
               setShowAddPumpForm={setShowAddPumpForm}
               showAddPumpForm={showAddPumpForm}
+              refreshPumpList={refreshPumpList}
             />
           </Row>
         </Col>
         <Col xs={12} md={9} style={{ flex: 3 }}>
+          {isError && (
+            <Row className="mb-3">
+              <Col>
+                <Alert variant="danger">
+                  {errorProblem} {errorStatus}: {error}
+                </Alert>
+              </Col>
+            </Row>
+          )}
           <Row className="mb-3">
             <Col>
               <StatCard
                 title="Total Number of Fuel Pumps"
-                value="50"
+                value={noPumps ? noPumps.toString() : "Loading..."}
                 color={COLORS.primary}
               />
             </Col>
             <Col>
               <StatCard
                 title="Total Number of Employees"
-                value="200"
+                value={noPumps ? noEmployees.toString() : "Loading..."}
                 color="#fff"
               />
             </Col>
@@ -144,31 +94,51 @@ const Dashboard = () => {
 
           {showAddPumpForm ? (
             <Row className="align-items-center justify-content-center m-3">
-              <AddPumpForm
-                showAddPumpForm={showAddPumpForm}
-                setShowAddPumpForm={setShowAddPumpForm}
-                handleAddPump={handleAddPump}
-                newPump={newPump}
-                setNewPump={setNewPump}
-              />
+              <AddPumpForm />
             </Row>
           ) : (
-            <Row className="justify-content-center">
-              {filteredPumps.map((pump, index) => (
-                <Col
-                  xs={12}
-                  md={4}
-                  key={index}
-                  className="mb-3"
-                  style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <PumpCard pump={pump} />
-                </Col>
-              ))}
-            </Row>
+            <>
+              <Row className="justify-content-center ">
+                {loading && <h4>Loading...</h4>}
+                {currentPumps.map((pump, index) => (
+                  <Col
+                    xs={12}
+                    md={4}
+                    key={index}
+                    className="mb-3"
+                    style={{
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <PumpCard pump={pump} />
+                  </Col>
+                ))}
+              </Row>
+              <Row
+                style={{
+                  position: "fixed",
+                  bottom: "1rem",
+                  right: "1rem",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <Pagination>
+                  {Array.from(
+                    { length: Math.ceil(filteredPumps.length / itemsPerPage) },
+                    (_, index) => (
+                      <Pagination.Item
+                        key={index + 1}
+                        active={index + 1 === currentPage}
+                        onClick={() => paginate(index + 1)}
+                      >
+                        {index + 1}
+                      </Pagination.Item>
+                    )
+                  )}
+                </Pagination>
+              </Row>
+            </>
           )}
         </Col>
       </Row>

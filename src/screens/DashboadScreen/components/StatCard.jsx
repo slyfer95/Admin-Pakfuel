@@ -9,7 +9,6 @@ const StatCard = ({ title, value }) => {
         textAlign: "center",
         padding: "1rem",
         height: "100%",
-        // borderRadius: "8px",
         backgroundColor: COLORS.tertiary,
         color: COLORS.primary,
       }}

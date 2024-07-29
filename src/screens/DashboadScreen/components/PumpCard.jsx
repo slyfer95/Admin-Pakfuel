@@ -18,18 +18,15 @@ const PumpCard = ({ pump, onClick }) => {
           backgroundColor: COLORS.secondary,
         }}
         onClick={() => {
-          onClick ? onClick() : navigate("/pumpscreen");
+          onClick ? onClick() : navigate("/pumpscreen", { state: { pump } });
         }}
       >
-        <Card.Img className="w-75" src={pump.image} />
+        {pump?.image && <Card.Img className="w-75" src={pump.image} />}
         <Card.Body className="w-100">
           <ListGroup as="ul">
-            <ListGroup.Item as="li">{pump.name}</ListGroup.Item>
-            <ListGroup.Item as="li">ID: {pump.id}</ListGroup.Item>
-            <ListGroup.Item as="li">Location: {pump.location}</ListGroup.Item>
-            <ListGroup.Item as="li">
-              Organization: {pump.organization}
-            </ListGroup.Item>
+            <ListGroup.Item as="li">{pump?.name}</ListGroup.Item>
+            {/* <ListGroup.Item as="li">ID: {pump.id}</ListGroup.Item> */}
+            <ListGroup.Item as="li">Location: {pump?.location}</ListGroup.Item>
           </ListGroup>
         </Card.Body>
       </Card>
