@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Alert, Pagination } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Alert,
+  Pagination,
+  Spinner,
+} from "react-bootstrap";
 import { COLORS } from "../../constants/constants.js";
 import ProfileCard from "./components/ProfileCard.jsx";
 import AddPumpForm from "./components/AddPumpForm.jsx";
@@ -79,14 +86,14 @@ const Dashboard = () => {
             <Col>
               <StatCard
                 title="Total Number of Fuel Pumps"
-                value={noPumps ? noPumps.toString() : "Loading..."}
+                value={noPumps ? noPumps.toString() : null}
                 color={COLORS.primary}
               />
             </Col>
             <Col>
               <StatCard
                 title="Total Number of Employees"
-                value={noPumps ? noEmployees.toString() : "Loading..."}
+                value={noPumps ? noEmployees.toString() : null}
                 color="#fff"
               />
             </Col>
@@ -99,7 +106,7 @@ const Dashboard = () => {
           ) : (
             <>
               <Row className="justify-content-center ">
-                {loading && <h4>Loading...</h4>}
+                {loading && <Spinner />}
                 {currentPumps.map((pump, index) => (
                   <Col
                     xs={12}

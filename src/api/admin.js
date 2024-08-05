@@ -19,8 +19,15 @@ const removeEmployeeFromPump = (employeeEmail, pumpId) =>
 
 const getDashboardStats = () => client.get("/admin/dashboard-stats", {});
 
+const getCustomerList = () => client.get("/customer/getCustomerList", {});
+
+const getAllEmployeeList = () =>
+  client.get("/employee/getAllEmployeesList", {});
+
 export default {
   getPumpList,
+  getCustomerList,
+  getAllEmployeeList,
   addPump,
   addEmployeeToPump,
   addManagerToPump,

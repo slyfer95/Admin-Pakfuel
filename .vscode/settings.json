@@ -1,0 +1,6 @@
+{
+  "CodeGPT.apiKey": "Mistral",
+  "CodeGPT.Autocomplete.provider": "Mistral - codestral-latest",
+  "CodeGPT.Autocomplete.maxTokens": 200,
+  "CodeGPT.Autocomplete.suggestionDelay": 1500
+}

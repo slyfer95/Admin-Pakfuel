@@ -1,43 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
 import ListGroup from "react-bootstrap/ListGroup";
 import { COLORS } from "../../../constants/constants";
 
-const EmployeeDetailListItem = ({ employee, pumpId }) => {
+const CustomerDetailListItem = ({ customer }) => {
   return (
     <ListGroup as="ul" style={{ backgroundColor: COLORS.secondary }}>
       <ListGroup.Item as="li">
         <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
-          Employee Details
+          Customer Details
         </h4>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <p>
-          <strong>Name:</strong> {employee.name}
-        </p>
-      </ListGroup.Item>
-
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Email:</strong> {employee.email}
+          <strong>Name:</strong> {customer.name}
         </p>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <p>
-          <strong>Phone Number:</strong> {employee.phoneNumber}
+          <strong>Email:</strong> {customer.email}
         </p>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <p>
-          <strong>Pump ID:</strong> {pumpId || employee.pumpId}
+          <strong>Phone Number:</strong> {customer.phoneNumber}
         </p>
       </ListGroup.Item>
       <ListGroup.Item as="li">
         <p>
-          <strong>Verified:</strong> {employee.isVerified ? "Yes" : "No"}
+          <strong>Balance:</strong> {customer.balance}
+        </p>
+      </ListGroup.Item>
+      <ListGroup.Item as="li">
+        <p>
+          <strong>Verification: </strong>
+          {customer.isVerified ? "Verified" : "Not Verified"}
         </p>
       </ListGroup.Item>
     </ListGroup>
   );
 };
 
-export default EmployeeDetailListItem;
+export default CustomerDetailListItem;

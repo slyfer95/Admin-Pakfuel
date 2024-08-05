@@ -1,5 +1,5 @@
 import React from "react";
-import { Card } from "react-bootstrap";
+import { Card, Spinner } from "react-bootstrap";
 import { COLORS } from "../../../constants/constants";
 
 const StatCard = ({ title, value }) => {
@@ -14,7 +14,8 @@ const StatCard = ({ title, value }) => {
       }}
     >
       <h4>{title}</h4>
-      <p style={{ fontSize: "2rem", fontWeight: "bold" }}>{value}</p>
+      {value && <p style={{ fontSize: "2rem", fontWeight: "bold" }}>{value}</p>}
+      {!value && <Spinner />}
     </Card>
   );
 };

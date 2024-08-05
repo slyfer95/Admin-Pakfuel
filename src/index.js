@@ -17,6 +17,9 @@ import SignIn from "./screens/Auth/SignInScreen";
 import Dashboard from "./screens/DashboadScreen/DashboardScreen";
 import PumpScreen from "./screens/PumpScreen/PumpScreen";
 import EmployeeScreen from "./screens/EmployeeScreen/EmployeeScreen";
+import EmployeeListScreen from "./screens/EmployeeScreen/EmployeeListScreen";
+import CustomerListScreen from "./screens/CustomerScreen/CustomerListScreen";
+import CustomerScreen from "./screens/CustomerScreen/CustomerScreen";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -32,10 +35,21 @@ const router = createBrowserRouter(
         path="/pumpscreen"
         element={<ProtectedRoute element={<PumpScreen />} />}
       />
-
+      <Route
+        path="/employee-list"
+        element={<ProtectedRoute element={<EmployeeListScreen />} />}
+      />
       <Route
         path="/employee"
         element={<ProtectedRoute element={<EmployeeScreen />} />}
+      />
+      <Route
+        path="/customer-list"
+        element={<ProtectedRoute element={<CustomerListScreen />} />}
+      />
+      <Route
+        path="/customer"
+        element={<ProtectedRoute element={<CustomerScreen />} />}
       />
     </Route>
   )
