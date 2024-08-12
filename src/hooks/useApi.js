@@ -31,7 +31,6 @@ const useApi = (apiFunc) => {
       setIsError(false);
       setError(null);
       setData(response.data);
-      console.log(data);
     } catch (error) {
       // Handle network errors or exceptions here
       setIsError(true);

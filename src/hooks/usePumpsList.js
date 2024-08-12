@@ -37,7 +37,7 @@ const usePumpsList = () => {
     }
     if (getDashboardStatsApi.data) {
       setNoPumps(getDashboardStatsApi.data.totalPumps);
-      console.log(getDashboardStatsApi.data);
+
       setNoEmployees(getDashboardStatsApi.data.totalEmployees);
     }
   }, [getDashboardStatsApi.error, getDashboardStatsApi.data]);
@@ -52,7 +52,6 @@ const usePumpsList = () => {
       return;
     }
     if (getPumpsListApi.data) {
-      console.log(`Pumps received: ${getPumpsListApi.data.message}`);
       setPumps(getPumpsListApi.data.pumps);
       return;
     }
@@ -66,7 +65,6 @@ const usePumpsList = () => {
     if (getProfileApi.data) {
       setUser(null);
       setUser(getProfileApi.data.admin);
-      console.log(getProfileApi.data.admin);
     }
   }, [getProfileApi.error, getProfileApi.data]);
 

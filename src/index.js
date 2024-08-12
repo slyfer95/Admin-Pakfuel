@@ -10,6 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { AppProvider } from "./context/context";
+import { CookiesProvider } from "react-cookie";
 import ProtectedRoute from "./context/ProtectedRoute"; // Import the protected route component
 
 import HomeScreen from "./screens/HomeScreen";
@@ -20,13 +21,16 @@ import EmployeeScreen from "./screens/EmployeeScreen/EmployeeScreen";
 import EmployeeListScreen from "./screens/EmployeeScreen/EmployeeListScreen";
 import CustomerListScreen from "./screens/CustomerScreen/CustomerListScreen";
 import CustomerScreen from "./screens/CustomerScreen/CustomerScreen";
+import AuthRoute from "./components/AuthRoute";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<App />}>
-      <Route path="/login" element={<SignIn />} />
+      <Route path="" element={<AuthRoute />}>
+        <Route path="/" element={<HomeScreen />} />
+        <Route path="/login" element={<SignIn />} />
+      </Route>
 
-      <Route path="/" element={<HomeScreen />} />
       <Route
         path="/home"
         element={<ProtectedRoute element={<Dashboard />} />}
@@ -59,7 +63,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <AppProvider>
-      <RouterProvider router={router} />
+      <CookiesProvider defaultSetOptions={{ path: "/" }}>
+        <RouterProvider router={router} />
+      </CookiesProvider>
     </AppProvider>
   </React.StrictMode>
 );

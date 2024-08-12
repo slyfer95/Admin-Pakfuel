@@ -24,6 +24,8 @@ const getCustomerList = () => client.get("/customer/getCustomerList", {});
 const getAllEmployeeList = () =>
   client.get("/employee/getAllEmployeesList", {});
 
+const uploadImage = (image) => client.post("/admin/image", { image });
+
 export default {
   getPumpList,
   getCustomerList,
@@ -34,4 +36,5 @@ export default {
   removeEmployeeFromPump,
   getProfile,
   getDashboardStats,
+  uploadImage,
 };

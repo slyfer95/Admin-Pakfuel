@@ -7,6 +7,8 @@ import { COLORS } from "../constants/constants.js";
 import { AppContext } from "../context/context"; // Adjust the path if necessary
 import Cookies from "js-cookie";
 
+import authApi from "../api/auth.js";
+
 const Header = () => {
   const { user, setUser } = useContext(AppContext);
 
@@ -16,9 +18,9 @@ const Header = () => {
     }
   };
 
-  const handleLogout = () => {
-    setUser(false);
-    Cookies.remove("jwt");
+  const handleLogout = async () => {
+    setUser(null);
+    await authApi.logout();
   };
 
   return (
