@@ -1,26 +1,28 @@
-import React, { useContext } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { FaUser } from "react-icons/fa";
+import React, { useContext, useState } from "react";
+import { Navbar, Nav, Container, Modal, Button } from "react-bootstrap";
+import { FaUser, FaHome, FaUsers, FaSignOutAlt } from "react-icons/fa";
+import { MdPerson } from "react-icons/md";
 import logo from "../assets/logo.png";
-import { NavLink } from "react-router-dom"; // Import NavLink from react-router-dom
+import { NavLink, useNavigate } from "react-router-dom";
 import { COLORS } from "../constants/constants.js";
-import { AppContext } from "../context/context"; // Adjust the path if necessary
-import Cookies from "js-cookie";
-
+import { AppContext } from "../context/context";
 import authApi from "../api/auth.js";
 
 const Header = () => {
   const { user, setUser } = useContext(AppContext);
-
-  const confirmLogOut = () => {
-    if (window.confirm("Are you sure you want to log out?")) {
-      handleLogout();
-    }
-  };
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    setUser(null);
-    await authApi.logout();
+    try {
+      await authApi.logout();
+      setUser(null);
+      setShowLogoutModal(false);
+      navigate("/login");
+    } catch (error) {
+      console.error("Logout failed:", error);
+      // Optionally, show an error message to the user
+    }
   };
 
   return (
@@ -31,54 +33,71 @@ const Header = () => {
         expand="md"
         collapseOnSelect
       >
-        <Container>
-          <Navbar.Brand to="/">
-            <span
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <img
-                src={logo}
-                alt="proShop"
-                style={{ width: "15%", marginRight: "5%" }}
-              />
-              <h2 style={{ alignSelf: "center" }}>PAKFUEL</h2>
-            </span>
+        <Container fluid>
+          <Navbar.Brand as={NavLink} to="/">
+            <img
+              src={logo}
+              alt="PAKFUEL"
+              style={{ height: "30px", marginRight: "10px" }}
+            />
+            <span className="d-none d-sm-inline">PAKFUEL</span>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {user ? (
                 <>
-                  <NavLink to="/home" className="nav-link">
-                    Home
-                  </NavLink>
-                  <NavLink to="/employee-list" className="nav-link">
-                    Employees List
-                  </NavLink>
-                  <NavLink to="/customer-list" className="nav-link">
-                    Customers List
-                  </NavLink>
-                  <NavLink
-                    to="/"
-                    className="nav-link"
-                    onClick={() => confirmLogOut()}
-                  >
-                    Sign Out
-                  </NavLink>
+                  <Nav.Link as={NavLink} to="/home">
+                    <FaHome /> <span className="d-none d-md-inline">Home</span>
+                  </Nav.Link>
+                  <Nav.Link as={NavLink} to="/employee-list">
+                    <FaUsers />{" "}
+                    <span className="d-none d-md-inline">Employees</span>
+                  </Nav.Link>
+                  <Nav.Link as={NavLink} to="/customer-list">
+                    <MdPerson />{" "}
+                    <span className="d-none d-md-inline">Customers</span>
+                  </Nav.Link>
+                  <Nav.Link onClick={() => setShowLogoutModal(true)}>
+                    <FaSignOutAlt />{" "}
+                    <span className="d-none d-md-inline">Sign Out</span>
+                  </Nav.Link>
                 </>
               ) : (
-                <NavLink to="/login" className="nav-link">
-                  <FaUser /> Sign In
-                </NavLink>
+                <Nav.Link as={NavLink} to="/login">
+                  <FaUser /> <span className="d-none d-md-inline">Sign In</span>
+                </Nav.Link>
               )}
             </Nav>
           </Navbar.Collapse>
         </Container>
       </Navbar>
+
+      <Modal
+        show={showLogoutModal}
+        onHide={() => setShowLogoutModal(false)}
+        centered
+      >
+        <Modal.Header
+          closeButton
+          style={{ backgroundColor: COLORS.primary, color: "#000" }}
+        >
+          <Modal.Title>Confirm Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{ backgroundColor: COLORS.secondary, color: "#000" }}
+        >
+          Are you sure you want to log out?
+        </Modal.Body>
+        <Modal.Footer style={{ backgroundColor: COLORS.secondary }}>
+          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </header>
   );
 };

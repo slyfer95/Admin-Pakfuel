@@ -16,14 +16,20 @@ const EmployeeList = ({ pump }) => {
           textAlign: "center",
           padding: "1rem",
           height: "100%",
-          borderRadius: "8px",
-          backgroundColor: COLORS.secondary,
+          borderRadius: "15px",
+          background:
+            "linear-gradient(135deg, rgba(78, 84, 200, 0.4), rgba(143, 148, 251, 0.4))",
+          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+          color: "#444",
         }}
       >
         <Col>
-          <h4 style={{ textAlign: "center" }}>Employee List</h4>
+          <Card.Header as={"h5"}>Employee List</Card.Header>
           {pump.employees.length !== 0 ? (
-            <ListGroup as="ul">
+            <ListGroup
+              as="ul"
+              style={{ borderRadius: "8px", overflow: "hidden" }}
+            >
               {pump.employees.map((employee, index) => (
                 <EmployeeListItem
                   key={index}

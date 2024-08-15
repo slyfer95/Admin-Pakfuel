@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Row, Col, Button, Card, Image } from "react-bootstrap";
 import { COLORS } from "../../constants/constants.js";
 import profileImage from "../../assets/images/profile.png";
@@ -9,66 +9,84 @@ const EmployeeScreen = () => {
   const location = useLocation();
   const employee = location.state?.employee;
   const pumpId = location.state?.pumpId;
-  const pump = location.state?.pump;
-
   const navigate = useNavigate();
 
   return (
-    <Container fluid>
+    <Container fluid className="py-4">
       <Row>
-        {/* Sidebar */}
-        <Col
-          xs={12}
-          md={3}
-          style={{
-            flex: 1,
-            backgroundColor: COLORS.tertiary,
-            color: "#fff",
-            padding: "2rem",
-            borderRadius: "8px",
-            boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <Image
-              src={profileImage}
-              alt="Profile"
+        <Col xs={12} md={4} lg={3} className="mb-4">
+          <Card
+            className="text-center shadow"
+            style={{
+              color: "#000",
+              padding: "2rem",
+              borderRadius: "8px",
+              textAlign: "center",
+              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+              alignItems: "center",
+              fontFamily: "'Roboto', sans-serif",
+              position: "relative",
+              overflow: "hidden",
+              background: "linear-gradient(135deg, #4e54c8, #8f94fb)",
+              backdropFilter: "blur(5px)",
+            }}
+          >
+            {/* Decorative circles */}
+            <div
               style={{
+                position: "absolute",
+                top: "-20px",
+                left: "-20px",
                 width: "100px",
                 height: "100px",
                 borderRadius: "50%",
-                marginBottom: "1rem",
+                background: "rgba(0, 0, 128, 0.4)",
+                zIndex: -1,
               }}
             />
-            <h3 style={{ marginBottom: "0.5rem" }}>{employee.name}</h3>
-            <p>email: {employee.email}</p>
-            <p>ID: {employee._id}</p>
-          </div>
+            <div
+              style={{
+                position: "absolute",
+                bottom: "-30px",
+                right: "-30px",
+                width: "150px",
+                height: "150px",
+                borderRadius: "50%",
+                background: "rgba(127, 0, 255, 0.4)",
+                zIndex: -1,
+              }}
+            />
+            <Card.Body>
+              <Image
+                src={employee.imageUrl || profileImage}
+                alt="Profile"
+                roundedCircle
+                className="mb-3"
+                style={{ width: "150px", height: "150px", objectFit: "cover" }}
+              />
+              <h3
+                className="mb-2"
+                style={{
+                  fontFamily: "'Montserrat', sans-serif",
+                  fontWeight: 600,
+                }}
+              >
+                {employee.name}
+              </h3>
 
-          {/* <Row className="mt-3">
-            <Button variant="danger" onClick={() => navigate("/pumpscreen")}>
-              Remove Employee
-            </Button>
-          </Row> */}
-          <Row className="mt-3 ">
-            <Button variant="light" onClick={() => navigate(-1)}>
-              Back to Pump Screen
-            </Button>
-          </Row>
-        </Col>
-
-        {/* Main Content */}
-        <Col xs={12} md={9} style={{ flex: 3 }}>
-          {/* {!isEditing ? ( */}
-          <Card
-            style={{
-              padding: "2rem",
-              borderRadius: "10px",
-              marginBottom: "1rem",
-            }}
-          >
-            <EmployeeDetailListItem employee={employee} pumpId={pumpId} />
+              <Button
+                variant="outline-light"
+                className="mt-3 w-100"
+                onClick={() => navigate(-1)}
+                style={{ fontFamily: "'Roboto', sans-serif" }}
+              >
+                Back to Pump Screen
+              </Button>
+            </Card.Body>
           </Card>
+        </Col>
+        <Col xs={12} md={8} lg={9}>
+          <EmployeeDetailListItem employee={employee} pumpId={pumpId} />
         </Col>
       </Row>
     </Container>

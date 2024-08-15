@@ -14,7 +14,6 @@ import StatCard from "./components/StatCard.jsx";
 import SearchFilterPanel from "./components/SearchFilterPanel.jsx";
 import PumpCard from "./components/PumpCard.jsx";
 import usePumpsList from "../../hooks/usePumpsList.js";
-
 const Dashboard = () => {
   const {
     pumps,
@@ -55,6 +54,19 @@ const Dashboard = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return (
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  }
+
   return (
     <Container fluid>
       <Row style={{ margin: 0, width: "100%" }}>
@@ -82,15 +94,15 @@ const Dashboard = () => {
               </Col>
             </Row>
           )}
-          <Row className="mb-3">
-            <Col>
+          <Row className="mb-3 mt-3">
+            <Col xs={12} md={6} className="mb-3">
               <StatCard
                 title="Total Number of Fuel Pumps"
                 value={noPumps ? noPumps.toString() : null}
                 color={COLORS.primary}
               />
             </Col>
-            <Col>
+            <Col xs={12} md={6} className="mb-3">
               <StatCard
                 title="Total Number of Employees"
                 value={noPumps ? noEmployees.toString() : null}
@@ -106,7 +118,6 @@ const Dashboard = () => {
           ) : (
             <>
               <Row className="justify-content-center ">
-                {loading && <Spinner />}
                 {currentPumps.map((pump, index) => (
                   <Col
                     xs={12}

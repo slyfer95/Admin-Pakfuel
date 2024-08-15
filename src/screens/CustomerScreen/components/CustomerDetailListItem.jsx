@@ -1,42 +1,56 @@
-import React, { useState } from "react";
-import ListGroup from "react-bootstrap/ListGroup";
-import { COLORS } from "../../../constants/constants";
+import React from "react";
+import { ListGroup, Card, Badge, Row, Col, Image } from "react-bootstrap";
+import {
+  FaUser,
+  FaEnvelope,
+  FaPhone,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 
 const CustomerDetailListItem = ({ customer }) => {
   return (
-    <ListGroup as="ul" style={{ backgroundColor: COLORS.secondary }}>
-      <ListGroup.Item as="li">
-        <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
-          Customer Details
-        </h4>
-      </ListGroup.Item>
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Name:</strong> {customer.name}
-        </p>
-      </ListGroup.Item>
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Email:</strong> {customer.email}
-        </p>
-      </ListGroup.Item>
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Phone Number:</strong> {customer.phoneNumber}
-        </p>
-      </ListGroup.Item>
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Balance:</strong> {customer.balance}
-        </p>
-      </ListGroup.Item>
-      <ListGroup.Item as="li">
-        <p>
-          <strong>Verification: </strong>
-          {customer.isVerified ? "Verified" : "Not Verified"}
-        </p>
-      </ListGroup.Item>
-    </ListGroup>
+    <Card
+      className="p-4 mb-4"
+      style={{
+        borderRadius: "15px",
+        background:
+          "linear-gradient(135deg, rgba(78, 84, 200, 0.4), rgba(143, 148, 251, 0.4))",
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+      }}
+    >
+      <Row className="align-items-center mb-4 w-100">
+        <Col xs={12} md={12}>
+          <h4 className="text-center mb-4">Customer Details</h4>
+          <ListGroup>
+            <ListGroup.Item>
+              <FaUser className="me-2" />
+              <strong>Name:</strong> {customer.name}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <FaEnvelope className="me-2" />
+              <strong>Email:</strong> {customer.email}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <FaPhone className="me-2" />
+              <strong>Phone Number:</strong> {customer.phoneNumber}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              <strong>Verified:</strong>
+              {customer.isVerified ? (
+                <Badge bg="success" className="ms-2">
+                  <FaCheckCircle className="me-1" /> Yes
+                </Badge>
+              ) : (
+                <Badge bg="danger" className="ms-2">
+                  <FaTimesCircle className="me-1" /> No
+                </Badge>
+              )}
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+      </Row>
+    </Card>
   );
 };
 

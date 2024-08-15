@@ -1,7 +1,16 @@
 // Sidebar.jsx
 import React, { useEffect, useState } from "react";
-import { Col, Image, FormGroup, Form, Button, Alert } from "react-bootstrap";
+import {
+  Col,
+  Image,
+  FormGroup,
+  Form,
+  Button,
+  Alert,
+  InputGroup,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { FaEnvelope } from "react-icons/fa";
 import adminApis from "../../../api/admin";
 import useApi from "../../../hooks/useApi";
 import { COLORS } from "../../../constants/constants";
@@ -33,16 +42,45 @@ const PumpSidebar = ({ pump, showAddEmployeeForm, setShowAddEmployeeForm }) => {
       xs={12}
       md={3}
       style={{
-        backgroundColor: COLORS.tertiary,
-        color: "#fff",
+        color: "#000",
         padding: "2rem",
-        flex: 1,
-        // width: "100%",
-        height: "100%",
         borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        textAlign: "center",
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
+        alignItems: "center",
+        fontFamily: "'Roboto', sans-serif",
+        position: "relative",
+        overflow: "hidden",
+        background: "linear-gradient(135deg, #4e54c8, #8f94fb)",
+        backdropFilter: "blur(5px)",
       }}
     >
+      {/* Decorative circles */}
+      <div
+        style={{
+          position: "absolute",
+          top: "-20px",
+          left: "-20px",
+          width: "100px",
+          height: "100px",
+          borderRadius: "50%",
+          background: "rgba(0, 0, 128, 0.4)",
+          zIndex: -1,
+        }}
+      />
+      <div
+        style={{
+          position: "absolute",
+          bottom: "-30px",
+          right: "-30px",
+          width: "150px",
+          height: "150px",
+          borderRadius: "50%",
+          background: "rgba(127, 0, 255, 0.4)",
+          zIndex: -1,
+        }}
+      />
+
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         {profileImage && (
           <Image
@@ -52,11 +90,12 @@ const PumpSidebar = ({ pump, showAddEmployeeForm, setShowAddEmployeeForm }) => {
               height: "100px",
               borderRadius: "50%",
               marginBottom: "1rem",
+              boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
             }}
           />
         )}
         {addManagerApi.error && (
-          <Alert variant="danger">
+          <Alert variant="danger" dismissible>
             {addManagerApi.error} {addManagerApi.errorStatus}:{" "}
             {addManagerApi.responseProblem}
           </Alert>
@@ -65,36 +104,46 @@ const PumpSidebar = ({ pump, showAddEmployeeForm, setShowAddEmployeeForm }) => {
           <Alert variant="success">Manager Added Successfully</Alert>
         )}
         <h3 style={{ marginBottom: "0.5rem" }}>
-          {addManagerApi.data?.managerName ||
-            pump.manager?.name ||
+          {addManagerApi.data?.managerName?.charAt(0).toUpperCase() +
+            addManagerApi.data?.managerName?.slice(1) ||
+            pump.manager?.name?.charAt(0).toUpperCase() +
+              pump.manager?.name?.slice(1) ||
             "No Manager Found"}
         </h3>
-        <p>Pump: {pump.location}</p>
       </div>
 
-      <h4 style={{ marginBottom: "1rem" }}>
+      <h4 style={{ marginBottom: "1rem", color: COLORS.primary }}>
         {pump?.manager?.name ? "" : "Add Manager"}
       </h4>
 
       <Button
         className="w-100"
-        variant="light"
+        variant="outline-light"
         onClick={() => setAddManagerViaEmail(!addManagerViaEmail)}
       >
         {addManagerViaEmail ? "Hide Form" : "Add Manager via Email"}
       </Button>
 
       {addManagerViaEmail && (
-        <Form onSubmit={handleAddManager}>
-          <FormGroup className="mb-4">
-            <Form.Label>Email</Form.Label>
-            <Form.Control
-              type="email"
-              value={managerEmail}
-              placeholder="Enter email"
-              onChange={(e) => setManagerEmail(e.target.value)}
-            />
-            <Button variant="light" className="w-100 mt-4" type="submit">
+        <Form onSubmit={handleAddManager} className="justify-content-start">
+          <FormGroup className="mt-4">
+            <InputGroup>
+              <InputGroup.Text>
+                <FaEnvelope />
+              </InputGroup.Text>
+              <Form.Control
+                type="email"
+                value={managerEmail}
+                placeholder="Enter email"
+                required
+                onChange={(e) => setManagerEmail(e.target.value)}
+              />
+            </InputGroup>
+            <Button
+              variant="outline-light"
+              className="w-100 mt-4"
+              type="submit"
+            >
               Add Manager
             </Button>
           </FormGroup>
@@ -102,7 +151,7 @@ const PumpSidebar = ({ pump, showAddEmployeeForm, setShowAddEmployeeForm }) => {
       )}
 
       <Button
-        variant="light"
+        variant="outline-light"
         className="mt-4 w-100"
         onClick={() => setShowAddEmployeeForm(!showAddEmployeeForm)}
       >
@@ -111,8 +160,8 @@ const PumpSidebar = ({ pump, showAddEmployeeForm, setShowAddEmployeeForm }) => {
 
       <Button
         className="mt-4 w-100"
-        variant="light"
-        onClick={() => navigate(-1)}
+        variant="outline-light"
+        onClick={() => navigate("/home")}
       >
         Back to Pumps List
       </Button>

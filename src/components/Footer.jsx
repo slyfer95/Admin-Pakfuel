@@ -1,20 +1,29 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { COLORS } from "../constants/constants";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
 
-  return (
-    <footer>
+  return location.pathname === "/home" ? (
+    <footer
+      style={{
+        backgroundColor: COLORS.tertiary,
+        color: "#fff",
+        padding: "1rem 0",
+        width: "100%",
+        textAlign: "center",
+      }}
+    >
       <Container>
-        <Row>
-          <Col className="text-center py-3">
-            <p>PAKFUEL &copy; {currentYear} </p>
-          </Col>
-        </Row>
+        <p style={{ margin: 0, fontSize: "0.9rem" }}>
+          PAKFUEL &copy; {currentYear}
+        </p>
       </Container>
     </footer>
-  );
+  ) : null;
 };
 
 export default Footer;

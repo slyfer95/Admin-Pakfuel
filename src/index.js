@@ -22,6 +22,7 @@ import EmployeeListScreen from "./screens/EmployeeScreen/EmployeeListScreen";
 import CustomerListScreen from "./screens/CustomerScreen/CustomerListScreen";
 import CustomerScreen from "./screens/CustomerScreen/CustomerScreen";
 import AuthRoute from "./components/AuthRoute";
+import "./index.css";
 
 const router = createBrowserRouter(
   createRoutesFromElements(

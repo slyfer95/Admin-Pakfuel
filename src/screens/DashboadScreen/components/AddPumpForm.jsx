@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button, Card, Alert } from "react-bootstrap";
+import { Form, Button, Card, Alert, Row } from "react-bootstrap";
 import { COLORS } from "../../../constants/constants";
 import adminApis from "../../../api/admin";
 import useApi from "../../../hooks/useApi";
@@ -128,17 +128,11 @@ const AddPumpForm = () => {
             }}
           />
         </Form.Group>
-
-        <Button
-          type="submit"
-          style={{
-            backgroundColor: COLORS.tertiary,
-            color: COLORS.primary,
-            width: "100%",
-          }}
-        >
-          Add Pump
-        </Button>
+        <Row className="justify-content-center">
+          <Button type="submit" className="w-50" variant="outline-primary">
+            Add Pump
+          </Button>
+        </Row>
       </Form>
     </Card>
   );

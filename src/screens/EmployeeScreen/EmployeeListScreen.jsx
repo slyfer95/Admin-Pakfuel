@@ -6,9 +6,11 @@ import {
   Col,
   Form,
   FormControl,
+  InputGroup,
   Spinner,
 } from "react-bootstrap";
-import EmployeeSidebar from "./components/EmployeeSidebar";
+import { FaSearch } from "react-icons/fa";
+
 import EmployeeList from "./components/EmployeeList";
 import adminApis from "../../api/admin";
 import useApi from "../../hooks/useApi";
@@ -56,29 +58,33 @@ const EmployeeListScreen = () => {
   );
 
   return (
-    <Container fluid>
+    <Container fluid className="py-4">
       <Row>
-        <EmployeeSidebar />
+        <Col md={9} lg={12}>
+          <Form className="mb-4">
+            <InputGroup>
+              <FormControl
+                type="text"
+                placeholder="Search by name, email, or phone number"
+                value={searchTerm}
+                onChange={handleSearch}
+                // className="shadow-sm"
+              />
 
-        <Col style={{ flex: 3 }}>
-          <Form className="my-3">
-            <FormControl
-              type="text"
-              placeholder="Search by name, email, or phone number"
-              className="mr-sm-2"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
+              <InputGroup.Text>
+                <FaSearch />
+              </InputGroup.Text>
+            </InputGroup>
           </Form>
 
           {loading && (
             <div className="text-center">
-              <Spinner animation="border" />
+              <Spinner animation="border" variant="primary" />
             </div>
           )}
 
           {error && (
-            <Alert variant="danger">
+            <Alert variant="danger" dismissible>
               Failed to fetch Employee list: {error.message}
             </Alert>
           )}

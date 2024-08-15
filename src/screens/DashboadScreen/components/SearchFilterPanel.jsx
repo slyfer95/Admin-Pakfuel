@@ -1,6 +1,7 @@
 import React from "react";
-import { Col, Form, Button, Row } from "react-bootstrap";
+import { Col, Form, Button, Row, InputGroup } from "react-bootstrap";
 import { COLORS } from "../../../constants/constants";
+import { FaSearch } from "react-icons/fa"; // Import search icon
 
 const SearchFilterPanel = ({
   searchTerm,
@@ -16,7 +17,8 @@ const SearchFilterPanel = ({
       xs={12}
       md={3}
       style={{
-        backgroundColor: COLORS.tertiary,
+        background: "linear-gradient(135deg, #4e54c8, #8f94fb)",
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
         color: "#fff",
         padding: "2rem",
         width: "100%",
@@ -25,34 +27,39 @@ const SearchFilterPanel = ({
     >
       <h3>Search</h3>
       <Form.Group controlId="searchBar" className="mb-3">
-        <Form.Control
-          type="text"
-          placeholder={`Search Pump`}
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
+        <InputGroup>
+          <Form.Control
+            type="text"
+            placeholder={`Search Pump`}
+            value={searchTerm}
+            onChange={handleSearchChange}
+          />
+          <InputGroup.Text>
+            <FaSearch />
+          </InputGroup.Text>
+        </InputGroup>
       </Form.Group>
 
-      <Row>
+      {/* <Row>
         <Button
-          variant="light"
+          variant="outline-light"
           onClick={() => {
             setSearchTerm("");
           }}
         >
           Reset
         </Button>
-      </Row>
+      </Row> */}
       <Row className="mt-3">
         <Button
-          variant="light"
+          variant="outline-light"
           onClick={() => setShowAddPumpForm(!showAddPumpForm)}
         >
           {showAddPumpForm ? "Show Pumps" : "Add Pump"}
         </Button>
       </Row>
       <Row className="mt-3">
-        <Button variant="light" onClick={() => refreshPumpList()}>
+        <Button variant="outline-light" onClick={() => refreshPumpList()}>
           Refresh Pump List
         </Button>
       </Row>

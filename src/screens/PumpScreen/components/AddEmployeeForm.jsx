@@ -84,14 +84,7 @@ const AddEmployeeForm = ({ pumpId, setUseStatePump }) => {
           </Form.Group>
 
           <Row className="justify-content-center">
-            <Button
-              type="submit"
-              style={{
-                backgroundColor: COLORS.tertiary,
-                color: COLORS.primary,
-                width: "40%",
-              }}
-            >
+            <Button type="submit" variant="outline-primary" className="w-50">
               Add Employee
             </Button>
           </Row>

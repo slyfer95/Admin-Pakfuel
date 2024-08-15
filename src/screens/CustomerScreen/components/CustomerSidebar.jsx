@@ -10,21 +10,15 @@ const CustomerSidebar = () => {
     <Col
       xs={12}
       md={3}
+      className="d-flex flex-column align-items-center p-4"
       style={{
         backgroundColor: COLORS.tertiary,
         color: "#fff",
-        padding: "2rem",
-        flex: 1,
-        height: "100%",
         borderRadius: "8px",
         boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <Button
-        className="mt-4 w-100"
-        variant="light"
-        onClick={() => navigate("/home")}
-      >
+      <Button className="mt-4 w-100" variant="light">
         Back to Dashboard
       </Button>
     </Col>

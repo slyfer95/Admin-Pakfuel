@@ -5,9 +5,11 @@ import {
   Col,
   Form,
   FormControl,
+  InputGroup,
   Spinner,
   Alert,
 } from "react-bootstrap";
+import { FaSearch } from "react-icons/fa";
 import CustomerSidebar from "./components/CustomerSidebar";
 import CustomerList from "./components/CustomerList";
 import adminApis from "../../api/admin";
@@ -58,17 +60,20 @@ const CustomerListScreen = () => {
   return (
     <Container fluid>
       <Row>
-        <CustomerSidebar />
-
         <Col style={{ flex: 3 }}>
           <Form className="my-3">
-            <FormControl
-              type="text"
-              placeholder="Search by name, email, or phone number"
-              className="mr-sm-2"
-              value={searchTerm}
-              onChange={handleSearch}
-            />
+            <InputGroup>
+              <FormControl
+                type="text"
+                placeholder="Search by name, email, or phone number"
+                className="mr-sm-2"
+                value={searchTerm}
+                onChange={handleSearch}
+              />
+              <InputGroup.Text>
+                <FaSearch />
+              </InputGroup.Text>
+            </InputGroup>
           </Form>
 
           {loading && (

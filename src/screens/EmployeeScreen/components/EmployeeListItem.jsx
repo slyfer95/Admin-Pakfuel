@@ -1,22 +1,36 @@
 import React from "react";
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Row, Col, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 
 const EmployeeListItem = ({ employee }) => {
   const navigate = useNavigate();
+
   return (
     <ListGroup.Item
+      action
       onClick={() => navigate("/employee", { state: { employee } })}
-      as="li"
-      style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
+      className="py-3"
     >
-      <span>{employee.name}</span>
-      <span>{employee.email}</span>
-      <span>{employee.phoneNumber}</span>
+      <Row className="align-items-center justify-content-center">
+        <Col xs={12} md={4} className="mb-2 mb-md-0">
+          <FaUser className="me-2" />
+          {employee.name}
+        </Col>
+        <Col xs={12} md={4} className="mb-2 mb-md-0">
+          <FaEnvelope className="me-2" />
+          {employee.email}
+        </Col>
+        <Col xs={12} md={3} className="mb-2 mb-md-0">
+          <FaPhone className="me-2" />
+          {employee.phoneNumber}
+        </Col>
+        <Col xs={12} md={1} className="mb-2 mb-md-0">
+          <Badge bg={employee.isEmployed ? "success" : "danger"}>
+            {employee.isEmployed ? "Employed" : "Unemployed"}
+          </Badge>
+        </Col>
+      </Row>
     </ListGroup.Item>
   );
 };
