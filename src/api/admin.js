@@ -4,8 +4,13 @@ const getProfile = () => client.get("/admin/profile", {});
 
 const getPumpList = () => client.get("/pump/getPumpList", {});
 
-const addPump = (name, location, coordinates) => {
-  return client.post("/pump/addPump", { name, location, coordinates });
+const addPump = (name, corporation, location, coordinates) => {
+  return client.post("/pump/addPump", {
+    name,
+    corporation,
+    location,
+    coordinates,
+  });
 };
 
 const addEmployeeToPump = (employeeEmail, pumpId) =>

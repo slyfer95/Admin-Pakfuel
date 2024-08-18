@@ -15,6 +15,7 @@ const AddPump = () => {
     latitude: null,
     longitude: null,
   });
+  const [corporation, setCorporation] = useState("");
   const mapContainerRef = useRef(null);
 
   const addPumpApi = useApi(adminApis.addPump);
@@ -45,7 +46,7 @@ const AddPump = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await addPumpApi.request(name, location, coordinates);
+    await addPumpApi.request(name, corporation, location, coordinates);
     navigate(0);
   };
 
@@ -88,6 +89,29 @@ const AddPump = () => {
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
             }}
           />
+        </Form.Group>
+        <Form.Group controlId="pumpCorporation">
+          <Form.Label>Corporation</Form.Label>
+          <Form.Control
+            as="select"
+            required
+            value={corporation}
+            onChange={(e) => setCorporation(e.target.value)}
+            style={{
+              borderRadius: "8px",
+              padding: "0.75rem",
+              marginBottom: "1rem",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            <option value="">Select Corporation</option>
+            <option value="PSO">PSO</option>
+            <option value="BYCO">BYCO</option>
+            <option value="CALTEX">CALTEX</option>
+            <option value="ATTOCK">ATTOCK</option>
+            <option value="HASCOL">HASCOL</option>
+            <option value="SHELL">SHELL</option>
+          </Form.Control>
         </Form.Group>
         <Form.Group controlId="pumpLocation" required>
           <Form.Label>Location</Form.Label>

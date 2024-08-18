@@ -8,7 +8,7 @@ import EmployeeDetailListItem from "./components/EmployeeDetailListItem.jsx";
 const EmployeeScreen = () => {
   const location = useLocation();
   const employee = location.state?.employee;
-  const pumpId = location.state?.pumpId;
+  const pumpId = location.state?.employee.pumpId._id;
   const navigate = useNavigate();
 
   return (
