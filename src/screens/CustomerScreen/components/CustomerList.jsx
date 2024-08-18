@@ -11,7 +11,7 @@ const CustomerList = ({ customers }) => {
     <Card
       style={{
         borderRadius: "15px",
-        backgroundColor: COLORS.secondary,
+        background: "linear-gradient(135deg, #4e54c8, #8f94fb)",
         boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -20,7 +20,7 @@ const CustomerList = ({ customers }) => {
           <Col xs={12} md={4} className="text-start">
             <Button
               variant="link"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", color: "white" }}
               onClick={() => navigate("/home")}
             >
               <FaChevronLeft /> Back to Dashboard
@@ -31,7 +31,7 @@ const CustomerList = ({ customers }) => {
           </Col>
         </Row>
         {customers.length !== 0 ? (
-          <ListGroup variant="flush">
+          <ListGroup variant="flush" style={{ borderRadius: "15px" }}>
             {customers.map((customer, index) => (
               <CustomerListItem key={index} customer={customer} />
             ))}

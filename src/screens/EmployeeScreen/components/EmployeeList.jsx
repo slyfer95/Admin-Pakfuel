@@ -12,7 +12,7 @@ const EmployeeList = ({ employees }) => {
       // className="shadow-lg"
       style={{
         borderRadius: "15px",
-        backgroundColor: COLORS.secondary,
+        background: "linear-gradient(135deg, #4e54c8, #8f94fb)",
         boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
       }}
     >
@@ -21,7 +21,7 @@ const EmployeeList = ({ employees }) => {
           <Col xs={12} md={4} className="text-start">
             <Button
               variant="link"
-              style={{ textDecoration: "none" }}
+              style={{ textDecoration: "none", color: "white" }}
               onClick={() => navigate("/home")}
             >
               <FaChevronLeft /> Back to Dashboard
@@ -32,7 +32,7 @@ const EmployeeList = ({ employees }) => {
           </Col>
         </Row>
         {employees.length !== 0 ? (
-          <ListGroup variant="flush">
+          <ListGroup variant="flush" style={{ borderRadius: "15px" }}>
             {employees.map((employee, index) => (
               <EmployeeListItem key={index} employee={employee} />
             ))}

@@ -36,6 +36,7 @@ const AddEmployeeForm = ({ pumpId, setUseStatePump }) => {
           borderRadius: "8px",
           marginBottom: "1rem",
           backgroundColor: COLORS.secondary,
+          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
         }}
       >
         <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>

@@ -31,7 +31,9 @@ const PumpScreen = () => {
             flex: 3,
           }}
         >
-          <PumpDetails pump={pump} />
+          <div className="mt-3 mt-md-0">
+            <PumpDetails pump={pump} />
+          </div>
 
           {showAddEmployeeForm && <AddEmployeeForm pumpId={pump._id} />}
 

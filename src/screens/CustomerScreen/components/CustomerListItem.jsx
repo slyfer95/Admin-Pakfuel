@@ -13,10 +13,8 @@ const CustomerListItem = ({ customer }) => {
     >
       <Row className="align-items-center">
         <Col xs={12} md={4} className="mb-2 mb-md-0">
-          <h5 className="mb-0 d-flex align-items-center">
-            <FaUser className="me-2" />
-            {customer.name.charAt(0).toUpperCase() + customer.name.slice(1)}
-          </h5>
+          <FaUser className="me-2" />
+          {customer.name.charAt(0).toUpperCase() + customer.name.slice(1)}
         </Col>
         <Col xs={12} md={4} className="mb-2 mb-md-0">
           <span className="d-flex align-items-center text-muted">

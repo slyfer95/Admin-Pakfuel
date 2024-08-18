@@ -5,6 +5,7 @@ import {
   Col,
   Form,
   Button,
+  Spinner,
   Card,
   Alert,
   InputGroup,
@@ -12,7 +13,7 @@ import {
 import { AppContext } from "../../context/context";
 import { useNavigate } from "react-router-dom";
 import authApi from "../../api/auth";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaSignInAlt } from "react-icons/fa";
 
 const SignIn = () => {
   const { setUser } = useContext(AppContext);
@@ -62,48 +63,54 @@ const SignIn = () => {
   };
 
   return (
-    <Container fluid>
-      <Row className="justify-content-center align-items-center w-100">
+    <Container fluid className="min-vh-100 d-flex align-items-center">
+      <Row className="justify-content-center w-100">
         <Col xs={12} sm={8} md={6} lg={4}>
           {showError && (
-            <Alert variant="danger" className="mb-4 text-center">
+            <Alert
+              variant="danger"
+              className="mb-4 text-center animated fadeIn"
+            >
               {error || "Invalid Credentials!"}
             </Alert>
           )}
           <Card
+            className="shadow-lg border-0 rounded-lg"
             style={{
-              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.2)",
               background: "linear-gradient(to right, #6a11cb 0%, #2575fc 100%)",
+              color: "white",
             }}
           >
             <Card.Body className="p-5">
-              <h2 className="text-center text-white mb-5 font-weight-bold">
+              <h2 className="text-center text-primary mb-4 text-white">
+                <FaSignInAlt className="me-2" color="white" />
                 Sign In
               </h2>
               <Form onSubmit={handleSignIn}>
-                <Form.Group controlId="email" className="mb-4">
-                  <Form.Label>Email address</Form.Label>
+                <Form.Group controlId="email" className="mb-4 ">
+                  <Form.Label className="text-white">Email address</Form.Label>
                   <Form.Control
                     onChange={(e) => setEmail(e.target.value)}
                     type="email"
                     placeholder="Enter email"
                     required
-                    className="py-2"
+                    className="py-2 border-0 shadow-sm"
                   />
                 </Form.Group>
                 <Form.Group controlId="password" className="mb-4">
-                  <Form.Label>Password</Form.Label>
+                  <Form.Label className="text-white">Password</Form.Label>
                   <InputGroup>
                     <Form.Control
                       onChange={(e) => setPassword(e.target.value)}
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"
                       required
-                      className="py-2"
+                      className="py-2 border-0 shadow-sm"
                     />
                     <InputGroup.Text
                       onClick={() => setShowPassword(!showPassword)}
                       style={{ cursor: "pointer" }}
+                      className="bg-white border-0"
                     >
                       {showPassword ? <FaEyeSlash /> : <FaEye />}
                     </InputGroup.Text>
@@ -115,7 +122,11 @@ const SignIn = () => {
                   className="w-100 py-2 mt-4"
                   disabled={loading}
                 >
-                  {loading ? "Signing In..." : "Sign In"}
+                  {loading ? (
+                    <Spinner animation="border" size="sm" />
+                  ) : (
+                    "Sign In"
+                  )}
                 </Button>
               </Form>
             </Card.Body>

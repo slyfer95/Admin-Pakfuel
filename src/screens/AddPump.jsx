@@ -4,7 +4,7 @@ import adminApis from "../api/admin";
 import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 import mapboxgl from "mapbox-gl";
-
+import { COLORS } from "../constants/constants";
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
 
 const AddPump = () => {
@@ -40,8 +40,6 @@ const AddPump = () => {
       setCoordinates({ latitude: lat, longitude: lng });
     });
 
-    map.addControl(new mapboxgl.NavigationControl(), "top-right");
-
     return () => map.remove();
   }, []);
 
@@ -56,7 +54,8 @@ const AddPump = () => {
       style={{
         padding: "2rem",
         borderRadius: "8px",
-        boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+        backgroundColor: COLORS.secondary,
+        boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)",
       }}
     >
       <h4 style={{ textAlign: "center", marginBottom: "2rem" }}>
@@ -116,8 +115,8 @@ const AddPump = () => {
           style={{ height: "400px", marginBottom: "1rem" }}
           ref={mapContainerRef}
         />
-        <Row className="justify-content-center">
-          <Button type="submit" className="w-50" variant="outline-primary">
+        <Row className="justify-content-end">
+          <Button type="submit" className="w-25" variant="outline-primary">
             Add Pump
           </Button>
         </Row>
