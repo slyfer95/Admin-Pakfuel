@@ -43,7 +43,7 @@ const Dashboard = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 9;
 
   const filteredPumps =
     pumps && searchTerm
@@ -102,15 +102,15 @@ const Dashboard = () => {
               </Col>
             </Row>
           )}
-          <Row className="mb-3 mt-3">
-            <Col xs={12} md={6} className="mb-3">
+          <Row className="mb-3 mb-md-3 mt-3 mt-md-0">
+            <Col xs={12} md={6}>
               <StatCard
                 title="Total Number of Fuel Pumps"
                 value={noPumps ? noPumps.toString() : null}
                 color={COLORS.primary}
               />
             </Col>
-            <Col xs={12} md={6} className="mb-3">
+            <Col xs={12} md={6}>
               <StatCard
                 title="Total Number of Employees"
                 value={noPumps ? noEmployees.toString() : null}
@@ -119,17 +119,13 @@ const Dashboard = () => {
             </Col>
           </Row>
 
-          <Row className="justify-content-center ">
+          <Row className="d-flex justify-content-center align-items-center">
             {currentPumps.map((pump, index) => (
               <Col
                 xs={12}
                 md={4}
                 key={index}
-                className="mb-3"
-                style={{
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                className="mb-2 d-flex justify-content-center"
               >
                 <PumpCard pump={pump} />
               </Col>

@@ -12,7 +12,7 @@ const PumpCard = ({ pump, onClick }) => {
       <Card
         className="align-items-center"
         style={{
-          padding: "1rem",
+          padding: "0.5rem",
           borderRadius: "15px",
           height: "100%",
           background: `linear-gradient(135deg, ${COLORS.secondary}, ${COLORS.primary})`,
