@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUser, FaEnvelope, FaPhone, FaGasPump } from "react-icons/fa";
 
 const EmployeeListItem = ({ employee }) => {
+  console.log(employee);
   const navigate = useNavigate();
 
   return (

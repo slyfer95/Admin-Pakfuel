@@ -5,30 +5,9 @@ import { FaUser, FaEnvelope, FaPhone } from "react-icons/fa";
 import useApi from "../../../hooks/useApi";
 import adminApis from "../../../api/admin";
 
-const EmployeeListItem = ({ employee, pumpId }) => {
-  const removeEmployeeApi = useApi(adminApis.removeEmployeeFromPump);
+const EmployeeListItem = ({ employee }) => {
   const navigate = useNavigate();
 
-  const handleDeleteEmployee = async (e) => {
-    e.preventDefault();
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete ${employee.name}?`
-    );
-    if (confirmDelete) {
-      await removeEmployeeApi.request(employee.email, pumpId);
-      navigate(0);
-    }
-  };
-
-  useEffect(() => {
-    if (removeEmployeeApi.error) {
-      console.log(removeEmployeeApi.error);
-    }
-    if (removeEmployeeApi.data) {
-      console.log("Employee deleted successfully");
-      navigate(0);
-    }
-  }, [removeEmployeeApi.data, removeEmployeeApi.error]);
   return (
     <ListGroup.Item
       action

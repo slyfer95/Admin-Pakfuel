@@ -31,11 +31,7 @@ const EmployeeList = ({ pump }) => {
               style={{ borderRadius: "8px", overflow: "hidden" }}
             >
               {pump.employees.map((employee, index) => (
-                <EmployeeListItem
-                  key={index}
-                  employee={employee}
-                  pumpId={pump._id}
-                />
+                <EmployeeListItem key={index} employee={employee} />
               ))}
             </ListGroup>
           ) : (

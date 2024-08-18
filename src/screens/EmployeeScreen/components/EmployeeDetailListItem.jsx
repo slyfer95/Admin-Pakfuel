@@ -10,7 +10,8 @@ import {
 } from "react-icons/fa";
 import profileImage from "../../../assets/images/profile.png";
 
-const EmployeeDetailListItem = ({ employee, pumpId }) => {
+const EmployeeDetailListItem = ({ employee }) => {
+  console.log(employee);
   return (
     <Card
       className="p-4 mb-4"
@@ -37,10 +38,10 @@ const EmployeeDetailListItem = ({ employee, pumpId }) => {
               <FaPhone className="me-2" />
               <strong>Phone Number:</strong> {employee.phoneNumber}
             </ListGroup.Item>
-            <ListGroup.Item>
+            {/* <ListGroup.Item>
               <FaGasPump className="me-2" />
-              <strong>Pump ID:</strong> {pumpId || employee.pumpId}
-            </ListGroup.Item>
+              <strong>Pump ID:</strong> {employee.pumpId}
+            </ListGroup.Item> */}
             <ListGroup.Item>
               <strong>Verified:</strong>
               {employee.isVerified ? (

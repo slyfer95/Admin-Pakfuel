@@ -8,7 +8,6 @@ import EmployeeDetailListItem from "./components/EmployeeDetailListItem.jsx";
 const EmployeeScreen = () => {
   const location = useLocation();
   const employee = location.state?.employee;
-  const pumpId = location.state?.employee.pumpId._id;
   const navigate = useNavigate();
 
   return (
@@ -86,7 +85,7 @@ const EmployeeScreen = () => {
           </Card>
         </Col>
         <Col xs={12} md={8} lg={9}>
-          <EmployeeDetailListItem employee={employee} pumpId={pumpId} />
+          <EmployeeDetailListItem employee={employee} />
         </Col>
       </Row>
     </Container>
