@@ -71,7 +71,7 @@ const EmployeeScreen = () => {
                   fontWeight: 600,
                 }}
               >
-                {employee.name}
+                {employee.name.charAt(0).toUpperCase() + employee.name.slice(1)}
               </h3>
 
               <Button

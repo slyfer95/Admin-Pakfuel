@@ -1,16 +1,11 @@
 import React from "react";
 import { Col, Form, Button, Row, InputGroup } from "react-bootstrap";
-import { COLORS } from "../../../constants/constants";
 import { FaSearch } from "react-icons/fa"; // Import search icon
+import { useNavigate } from "react-router-dom";
 
-const SearchFilterPanel = ({
-  searchTerm,
-  setSearchTerm,
-  showAddPumpForm,
-  setShowAddPumpForm,
-  refreshPumpList,
-}) => {
+const SearchFilterPanel = ({ searchTerm, setSearchTerm, refreshPumpList }) => {
   const handleSearchChange = (e) => setSearchTerm(e.target.value);
+  const navigate = useNavigate();
 
   return (
     <Col
@@ -51,11 +46,8 @@ const SearchFilterPanel = ({
         </Button>
       </Row> */}
       <Row className="mt-3">
-        <Button
-          variant="outline-light"
-          onClick={() => setShowAddPumpForm(!showAddPumpForm)}
-        >
-          {showAddPumpForm ? "Show Pumps" : "Add Pump"}
+        <Button variant="outline-light" onClick={() => navigate("/add-pump")}>
+          {"Add Pump"}
         </Button>
       </Row>
       <Row className="mt-3">

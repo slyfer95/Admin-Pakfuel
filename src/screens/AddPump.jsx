@@ -1,21 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Form, Button, Card, Alert, Row } from "react-bootstrap";
-import { COLORS } from "../../../constants/constants";
-import adminApis from "../../../api/admin";
-import useApi from "../../../hooks/useApi";
+import adminApis from "../api/admin";
+import useApi from "../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import mapboxgl from "mapbox-gl";
 
-const AddPumpForm = () => {
+mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN;
+
+const AddPump = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
   const [coordinates, setCoordinates] = useState({
-    latitude: "",
-    longitude: "",
+    latitude: null,
+    longitude: null,
   });
+  const mapContainerRef = useRef(null);
 
   const addPumpApi = useApi(adminApis.addPump);
-
   useEffect(() => {
     if (addPumpApi.data) {
       console.log("Pump added successfully");
@@ -24,6 +26,24 @@ const AddPumpForm = () => {
       console.error("Failed to add pump", addPumpApi.responseProblem);
     }
   }, [addPumpApi.error, addPumpApi.data]);
+
+  useEffect(() => {
+    const map = new mapboxgl.Map({
+      container: mapContainerRef.current,
+      style: "mapbox://styles/mapbox/streets-v12",
+      center: [67.01715594140774, 30.195862875675786],
+      zoom: 12,
+    });
+
+    map.on("click", (e) => {
+      const { lng, lat } = e.lngLat;
+      setCoordinates({ latitude: lat, longitude: lng });
+    });
+
+    map.addControl(new mapboxgl.NavigationControl(), "top-right");
+
+    return () => map.remove();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,48 +106,16 @@ const AddPumpForm = () => {
             }}
           />
         </Form.Group>
-        <Form.Group controlId="pumpLatitude">
-          <Form.Label>Latitude</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Latitude"
-            required
-            value={coordinates.latitude}
-            onChange={(e) =>
-              setCoordinates((prevCoordinates) => ({
-                ...prevCoordinates,
-                latitude: e.target.value,
-              }))
-            }
-            style={{
-              borderRadius: "8px",
-              padding: "0.75rem",
-              marginBottom: "1rem",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
-          />
+        <Form.Group controlId="pumpCoordinates">
+          <Form.Label>Coordinates</Form.Label>
+          <p>
+            Latitude: {coordinates.latitude}, Longitude: {coordinates.longitude}
+          </p>
         </Form.Group>
-        <Form.Group controlId="pumpLongitude">
-          <Form.Label>Longitude</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Longitude"
-            required
-            value={coordinates.longitude}
-            onChange={(e) =>
-              setCoordinates((prevCoordinates) => ({
-                ...prevCoordinates,
-                longitude: e.target.value,
-              }))
-            }
-            style={{
-              borderRadius: "8px",
-              padding: "0.75rem",
-              marginBottom: "1rem",
-              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-            }}
-          />
-        </Form.Group>
+        <div
+          style={{ height: "400px", marginBottom: "1rem" }}
+          ref={mapContainerRef}
+        />
         <Row className="justify-content-center">
           <Button type="submit" className="w-50" variant="outline-primary">
             Add Pump
@@ -138,4 +126,4 @@ const AddPumpForm = () => {
   );
 };
 
-export default AddPumpForm;
+export default AddPump;

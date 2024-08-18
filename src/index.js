@@ -1,4 +1,4 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
 import App from "./App";
@@ -23,6 +23,7 @@ import CustomerListScreen from "./screens/CustomerScreen/CustomerListScreen";
 import CustomerScreen from "./screens/CustomerScreen/CustomerScreen";
 import AuthRoute from "./components/AuthRoute";
 import "./index.css";
+import AddPump from "./screens/AddPump";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -56,19 +57,23 @@ const router = createBrowserRouter(
         path="/customer"
         element={<ProtectedRoute element={<CustomerScreen />} />}
       />
+      <Route
+        path="/add-pump"
+        element={<ProtectedRoute element={<AddPump />} />}
+      />
     </Route>
   )
 );
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <>
     <AppProvider>
       <CookiesProvider defaultSetOptions={{ path: "/" }}>
         <RouterProvider router={router} />
       </CookiesProvider>
     </AppProvider>
-  </React.StrictMode>
+  </>
 );
 
 reportWebVitals();

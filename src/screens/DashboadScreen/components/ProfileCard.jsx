@@ -143,7 +143,7 @@ const ProfileCard = ({ user }) => {
           }}
           onClick={() => document.getElementById("fileInput").click()}
         >
-          <FaCamera size={30} style={{ color: COLORS.tertiary }} />
+          <FaCamera size={30} style={{ color: COLORS.primary }} />
         </div>
       </div>
       <input

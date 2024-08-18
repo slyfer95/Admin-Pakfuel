@@ -6,15 +6,18 @@ import {
   Alert,
   Pagination,
   Spinner,
+  Button,
 } from "react-bootstrap";
 import { COLORS } from "../../constants/constants.js";
 import ProfileCard from "./components/ProfileCard.jsx";
-import AddPumpForm from "./components/AddPumpForm.jsx";
 import StatCard from "./components/StatCard.jsx";
 import SearchFilterPanel from "./components/SearchFilterPanel.jsx";
 import PumpCard from "./components/PumpCard.jsx";
 import usePumpsList from "../../hooks/usePumpsList.js";
+import { useNavigate } from "react-router-dom";
+
 const Dashboard = () => {
+  const navigate = useNavigate();
   const {
     pumps,
     noPumps,
@@ -39,7 +42,6 @@ const Dashboard = () => {
   }, []);
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [showAddPumpForm, setShowAddPumpForm] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -78,10 +80,16 @@ const Dashboard = () => {
             <SearchFilterPanel
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
-              setShowAddPumpForm={setShowAddPumpForm}
-              showAddPumpForm={showAddPumpForm}
               refreshPumpList={refreshPumpList}
             />
+          </Row>
+          <Row className="mt-3">
+            <Button
+              variant="outline-light"
+              onClick={() => navigate("/addpump")}
+            >
+              Add Pump
+            </Button>
           </Row>
         </Col>
         <Col xs={12} md={9} style={{ flex: 3 }}>
@@ -111,53 +119,45 @@ const Dashboard = () => {
             </Col>
           </Row>
 
-          {showAddPumpForm ? (
-            <Row className="align-items-center justify-content-center m-3">
-              <AddPumpForm />
-            </Row>
-          ) : (
-            <>
-              <Row className="justify-content-center ">
-                {currentPumps.map((pump, index) => (
-                  <Col
-                    xs={12}
-                    md={4}
-                    key={index}
-                    className="mb-3"
-                    style={{
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <PumpCard pump={pump} />
-                  </Col>
-                ))}
-              </Row>
-              <Row
+          <Row className="justify-content-center ">
+            {currentPumps.map((pump, index) => (
+              <Col
+                xs={12}
+                md={4}
+                key={index}
+                className="mb-3"
                 style={{
-                  position: "fixed",
-                  bottom: "1rem",
-                  right: "1rem",
-                  transform: "translate(-50%, -50%)",
+                  alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
-                <Pagination>
-                  {Array.from(
-                    { length: Math.ceil(filteredPumps.length / itemsPerPage) },
-                    (_, index) => (
-                      <Pagination.Item
-                        key={index + 1}
-                        active={index + 1 === currentPage}
-                        onClick={() => paginate(index + 1)}
-                      >
-                        {index + 1}
-                      </Pagination.Item>
-                    )
-                  )}
-                </Pagination>
-              </Row>
-            </>
-          )}
+                <PumpCard pump={pump} />
+              </Col>
+            ))}
+          </Row>
+          <Row
+            style={{
+              position: "fixed",
+              bottom: "1rem",
+              right: "1rem",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <Pagination>
+              {Array.from(
+                { length: Math.ceil(filteredPumps.length / itemsPerPage) },
+                (_, index) => (
+                  <Pagination.Item
+                    key={index + 1}
+                    active={index + 1 === currentPage}
+                    onClick={() => paginate(index + 1)}
+                  >
+                    {index + 1}
+                  </Pagination.Item>
+                )
+              )}
+            </Pagination>
+          </Row>
         </Col>
       </Row>
     </Container>
